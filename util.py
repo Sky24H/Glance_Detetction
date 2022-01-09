@@ -34,9 +34,10 @@ def get_coords(detector, image, coordinates=None):
         x1 = max(0, rect[0])
         x2 = min(image.shape[1], rect[2])
         # y_gap, x_gap = (y2 - y1)//2, (x2 - x1)//2
-        y_gap = min((y2 - y1)//4, y1, image.shape[0] - y2)
-        x_gap = (((y2-y1)+y_gap*2) - (x2-x1))//2
-        coords = y1-y_gap, y2+y_gap, x1-x_gap, x2+x_gap
+        # y_gap = min((y2 - y1)//6, y1, image.shape[0] - y2)
+        # x_gap = (((y2-y1)+y_gap*2) - (x2-x1))//2
+        # coords = y1-y_gap, y2+y_gap, x1-x_gap, x2+x_gap
+        coords = y1, y2, x1, x2
         #print(coords)
         # coords = [coords_[0], coords_[0]+1024, coords_[2], coords_[2]+1024]
         #results.append(image[y1-y_gap: y2+y_gap, x1-x_gap:x2+x_gap])
@@ -76,6 +77,11 @@ def get_coords(detector, image, coordinates=None):
 #         face = image[coords[0]:coords[1], coords[2]:coords[3]]
 #         return face, coords
 
+def smooth_coords(last_coord, current_coord):
+    change = np.array(current_coord) - np.array(last_coord)
+    change = change * 0.8
+    return (np.array(last_coord) + np.array(change)).astype(int).tolist()
+
 def get_face(coords, image):
     y1, y2, x1, x2 = coords
     w, h = x2 - x1, y2 - y1
@@ -102,3 +108,16 @@ def get_face(coords, image):
 #         except Exception as e:
 #             print(e)
 #             continue
+
+import dlib
+from imutils import face_utils
+import cv2
+
+
+def get_faces_fast(face_detecor, frame):
+    landmarks = []
+    faces = face_detecor(frame, 1)
+    # landmark = face_predictor(frame, faces[0])
+    print(faces)
+
+    return faces

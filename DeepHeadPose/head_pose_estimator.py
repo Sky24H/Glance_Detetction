@@ -82,35 +82,35 @@ def head_pose_estimation(model, transformations, cv2_face):
     # print(f'inference time for one face detection is {tock_inner-tick_inner}')
 
 
-# if __name__ == '__main__':
-#     # Initialize model
-#     model, transformations = initialize_model()
+if __name__ == '__main__':
+    # Initialize model
+    model, transformations = initialize_model()
     
-#     # Set max frames
-#     max_frames = 100
+    # Set max frames
+    max_frames = 100
 
-#     # Set up video parameters, just for testing
-#     video_path = '../../base.mp4'
-#     capture = cv2.VideoCapture(video_path)
-#     capture.set(cv2.CAP_PROP_FPS, 25)
-#     capture.set(cv2.CAP_PROP_FRAME_WIDTH, 128)
-#     capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 128)
+    # Set up video parameters, just for testing
+    video_path = '../../base.mp4'
+    capture = cv2.VideoCapture(video_path)
+    capture.set(cv2.CAP_PROP_FPS, 25)
+    capture.set(cv2.CAP_PROP_FRAME_WIDTH, 128)
+    capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 128)
 
-#     # get frame and detect head pose
-#     frame_num = 0
-#     while frame_num < max_frames:
-#         try:
-#             frame_num = 1
-#             _, frame = capture.read()
-#             if frame is not None:
-#                 frame = cv2.flip(frame, 1)
-#                 results = head_pose_estimation(model, transformations, frame)
-#                 yaw_predicted, pitch_predicted, roll_predicted = results
-#                 print(yaw_predicted, pitch_predicted, roll_predicted)
-#                 frame_num += 1
-#             else:
-#                 break
-#         except Exception as e:
-#             print(e)
-#             break
-#     capture.release()
+    # get frame and detect head pose
+    frame_num = 0
+    while frame_num < max_frames:
+        try:
+            frame_num = 1
+            _, frame = capture.read()
+            if frame is not None:
+                frame = cv2.flip(frame, 1)
+                results = head_pose_estimation(model, transformations, frame)
+                yaw_predicted, pitch_predicted, roll_predicted = results
+                print(yaw_predicted, pitch_predicted, roll_predicted)
+                frame_num += 1
+            else:
+                break
+        except Exception as e:
+            print(e)
+            break
+    capture.release()
