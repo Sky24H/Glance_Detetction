@@ -28,11 +28,11 @@ if __name__ == '__main__':
     dlib_face_detector = dlib.get_frontal_face_detector()
     print('models loaded')
 
-    # Set max frames
+    # set max frames
     use_camera = False
     video_path = '../test.mp4'
 
-    # Set up video parameters
+    # set up video parameters
     if use_camera:
         WIDTH, HEIGHT = 640, 480
         video_path = 0
@@ -98,7 +98,7 @@ if __name__ == '__main__':
             print('exit by Exception:', e)
             break
 
-    # relase resources
+    # release resources
     cv2.destroyAllWindows()
     capture.release()
 
