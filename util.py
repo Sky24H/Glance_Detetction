@@ -4,6 +4,10 @@ import face_detection
 device = "cuda"
 from tqdm import tqdm
 import time
+import dlib
+from imutils import face_utils
+import cv2
+
 
 def initial_face_detection_model():
     detector = face_detection.FaceAlignment(face_detection.LandmarksType._2D,
@@ -89,6 +93,16 @@ def get_face(coords, image):
     size = (w+h)//2
 
     return image[y1:y2, x1:x2], size
+
+def get_faces_fast(face_detecor, frame):
+    landmarks = []
+    faces = face_detecor(frame, 1)
+    # landmark = face_predictor(frame, faces[0])
+    print(faces)
+
+    return faces
+
+
 # if __name__ == '__main__':
 #     # test_image = cv2.imread('./output.png')
 #     detector = initil_face_detection_model()
@@ -108,16 +122,3 @@ def get_face(coords, image):
 #         except Exception as e:
 #             print(e)
 #             continue
-
-import dlib
-from imutils import face_utils
-import cv2
-
-
-def get_faces_fast(face_detecor, frame):
-    landmarks = []
-    faces = face_detecor(frame, 1)
-    # landmark = face_predictor(frame, faces[0])
-    print(faces)
-
-    return faces

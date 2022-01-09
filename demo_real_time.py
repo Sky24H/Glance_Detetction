@@ -26,9 +26,11 @@ if __name__ == '__main__':
     # initialize face detection model
     face_detector = initial_face_detection_model()
     dlib_face_detector = dlib.get_frontal_face_detector()
+    print('models loaded')
 
     # Set max frames
-    use_camera = False
+    use_camera = True
+    print('use_camera') if use_camera else print('use_video')
 
     # Set up video parameters, just for testing
     video_path = 0 if use_camera else '../test.mp4'
@@ -43,6 +45,7 @@ if __name__ == '__main__':
         max_frames = 10000000
     else:
         max_frames=600
+
     # get frame and detect head pose
     frame_num = 0
     last_coord = None
@@ -54,8 +57,6 @@ if __name__ == '__main__':
             _, frame = capture.read()
             if frame is not None:
                 frame = cv2.flip(frame, 1)
-                # frame = cv2.vconcat([frame, frame])
-                # faces = get_faces_fast(dlib_face_detector, frame)
                 try:
                     coords_ = get_coords(face_detector, frame)
                     if last_coord is None:
@@ -81,6 +82,7 @@ if __name__ == '__main__':
                     draw_axis(frame, yaw_predicted, pitch_predicted, roll_predicted, tdx = (coords[2] + coords[3]) / 2, tdy= (coords[0] + coords[1]) / 2, size = (coords[1] - coords[0])/2)
                     last_coord = coords
                 except KeyboardInterrupt:
+                    print('KeyboardInterrupt')
                     break
                 except Exception as e:
                     print(e)
@@ -91,11 +93,15 @@ if __name__ == '__main__':
                 else:
                     output_frames.append(cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
         except Exception as e:
-            print('exit', e)
+            print('exit by Exception:', e)
             break
 
     # relase resources
     cv2.destroyAllWindows()
     capture.release()
+
+    # save video
     if not use_camera:
-        imageio.mimsave('test.mp4', [img_as_ubyte(frame) for frame in output_frames], fps=25)
+        save_path = 'result.mp4'
+        imageio.mimsave(save_path, [img_as_ubyte(frame) for frame in output_frames], fps=25)
+        print('video saved at', save_path)
