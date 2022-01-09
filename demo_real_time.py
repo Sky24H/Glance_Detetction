@@ -29,24 +29,26 @@ if __name__ == '__main__':
     print('models loaded')
 
     # Set max frames
-    use_camera = True
-    print('use_camera') if use_camera else print('use_video')
+    use_camera = False
+    video_path = '../test.mp4'
 
-    # Set up video parameters, just for testing
-    video_path = 0 if use_camera else '../test.mp4'
-    capture = cv2.VideoCapture(video_path)
-    capture.set(cv2.CAP_PROP_FPS, 25)
-    capture.set(cv2.CAP_PROP_FRAME_WIDTH, 128)
-    capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 128)
-
-    # set window
+    # Set up video parameters
     if use_camera:
+        WIDTH, HEIGHT = 640, 480
+        video_path = 0
         cv2.namedWindow('frame', cv2.WINDOW_NORMAL)
         max_frames = 10000000
+        print('use_camera')
     else:
+        WIDTH, HEIGHT = imageio.get_reader(video_path).get_meta_data()['size']
         max_frames=600
+        print('use_video')
 
-    # get frame and detect head pose
+    capture = cv2.VideoCapture(video_path)
+    capture.set(cv2.CAP_PROP_FPS, 25)
+    capture.set(cv2.CAP_PROP_FRAME_WIDTH, WIDTH)
+    capture.set(cv2.CAP_PROP_FRAME_HEIGHT, HEIGHT)
+
     frame_num = 0
     last_coord = None
     looking_flag = False
@@ -56,7 +58,7 @@ if __name__ == '__main__':
         try:
             _, frame = capture.read()
             if frame is not None:
-                frame = cv2.flip(frame, 1)
+                frame = cv2.flip(frame, 1) if use_camera else frame
                 try:
                     coords_ = get_coords(face_detector, frame)
                     if last_coord is None:
