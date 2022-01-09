@@ -10,4 +10,4 @@ python demo_real_time.py
 **set use_camera to True if using a webcam, else set to False and specify a video file.**
 
 ## Acknowlegement:
-Thanks to and [DeepHeadPose](https://github.com/DriverDistraction/DeepHeadPose) and [GazeTracking](https://github.com/antoinelame/GazeTracking)
+Thanks to and [DeepHeadPose](https://github.com/DriverDistraction/DeepHeadPose), [GazeTracking](https://github.com/antoinelame/GazeTracking) and [face_alignment](https://github.com/1adrianb/face-alignment)
