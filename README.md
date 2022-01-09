@@ -8,3 +8,6 @@ pip install -r requirements.txt
 python demo_real_time.py
 
 **set use_camera to True if using a webcam, else set to False and specify a video file.**
+
+## Acknowlegement:
+Thanks to and [DeepHeadPose](https://github.com/DriverDistraction/DeepHeadPose) and [GazeTracking](https://github.com/antoinelame/GazeTracking)
